@@ -21,7 +21,7 @@ get '/' do
   erb :index
 end
 
-post '/search' do
+post '/' do
   query = params[:q]
 
   # TODO: DRY this.

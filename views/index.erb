@@ -21,7 +21,7 @@
     }
 
     function instantSearch() {
-      var _url = "<%= "#{@url}/search" %>";
+      var _url = "<%= @url %>";
       var query = document.getElementById("search_box").value;
       $.post(_url, { q: query }, function(widget_html) {
           $('#autoupdate-widget').html(widget_html);
