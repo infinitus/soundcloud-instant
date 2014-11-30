@@ -6,13 +6,18 @@ require 'pp'
 if Sinatra::Base.development?
   require 'dotenv'
   Dotenv.load
+  URL = 'http://localhost:4567'
+else
+  URL = 'http://soundcloudinstant.herokuapp.com'
 end
 
 CLIENT_ID = ENV['CLIENT_ID']
+DEFAULT_TRACK = "https://soundcloud.com/iamtchami/tchami-untrue-extended-mix"
 
 get '/' do
   client = SoundCloudClient.new(CLIENT_ID)
   @widget = client.track_html
+  @url = URL
   erb :index
 end
 
@@ -30,7 +35,6 @@ end
 class SoundCloudClient
 
   attr_accessor :client
-  DEFAULT_TRACK = "https://soundcloud.com/iamtchami/tchami-untrue-extended-mix"
 
   def initialize(client_id)
     @client ||= SoundCloud.new(:client_id => CLIENT_ID)

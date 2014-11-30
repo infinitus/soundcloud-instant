@@ -21,8 +21,7 @@
     }
 
     function instantSearch() {
-      // TODO: Set URL based on env automatically.
-      var _url = "http://localhost:4567/search"
+      var _url = "<%= "#{@url}/search" %>";
       var query = document.getElementById("search_box").value;
       $.post(_url, { q: query }, function(widget_html) {
           $('#autoupdate-widget').html(widget_html);
