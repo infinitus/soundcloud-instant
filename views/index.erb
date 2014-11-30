@@ -3,12 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <title>SoundCloud Instant</title>
+  <script src="js/jquery-1.11.1.min.js" type="text/javascript" charset="utf-8"></script>
 </head>
 <body>
 
   <div id="widget">
     <%= @widget %>
   </div>
+
+  <div>
+    <input type="text" name="search_box" id="search_box" spellcheck="false" placeholder="Search for.." />
+  </div>
+
+  <script type="text/javascript" charset="utf-8">
+    document.getElementById("search_box").onkeyup = function(event) {
+      instantSearch();
+    }
+
+    function instantSearch() {
+      // TODO: Set URL based on env automatically.
+      var _url = "http://localhost:4567/search"
+      var query = document.getElementById("search_box").value;
+      $.ajax({ type: "GET", url: _url, data: { q: query }});
+    }
+  </script>
   
 </body>
 </html>
