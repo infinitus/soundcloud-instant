@@ -1,7 +1,6 @@
 require 'sinatra'
 require 'sinatra/reloader'
 require 'soundcloud'
-require 'pp'
 
 if Sinatra::Base.development?
   require 'dotenv'
@@ -11,45 +10,37 @@ else
   URL = 'http://soundcloudinstant.herokuapp.com'
 end
 
-CLIENT_ID = ENV['CLIENT_ID']
-DEFAULT_TRACK = "https://soundcloud.com/iamtchami/tchami-untrue-extended-mix"
-
 get '/' do
-  client = SoundCloudClient.new(CLIENT_ID)
-  @widget = client.track_html
+  @widget = Client.track_html
   @url = URL
   erb :index
 end
 
 post '/' do
   query = params[:q]
+  p query
 
   # TODO: DRY this.
-  client = SoundCloudClient.new(CLIENT_ID)
-  permalink = client.search_track(query)
-  p permalink
-  @widget = client.track_html(permalink)
+  permalink = Client.search_track(query)
+  @widget = Client.track_html(permalink)
 
   response.headers['Access-Control-Allow-Origin'] = '*'
 
   erb :widget
 end
 
-class SoundCloudClient
+Client = SoundCloud.new(:client_id => ENV["CLIENT_ID"])
+class << Client
 
-  attr_accessor :client
-
-  def initialize(client_id)
-    @client ||= SoundCloud.new(:client_id => CLIENT_ID)
-  end
+  DEFAULT_TRACK = "https://soundcloud.com/iamtchami/tchami-untrue-extended-mix"
 
   def search_track(query)
-    resp = client.get('/tracks', :q => query)
+    resp = self.get('/tracks', :q => query)
     resp.first["permalink_url"]
   end
 
   def track_html(track_url = DEFAULT_TRACK)
-    resp = @client.get('/oembed', :url => track_url)
+    resp = self.get('/oembed', :url => track_url)
     resp["html"]
   end
 
