@@ -21,7 +21,8 @@ post '/' do
 
   # TODO: DRY this.
   permalink = Client.search_track(query)
-  @widget = Client.track_html(permalink)
+  @widget = Client.track_html(permalink, true)
+  p @widget
 
   response.headers['Access-Control-Allow-Origin'] = '*'
 
@@ -38,8 +39,8 @@ class << Client
     resp.first["permalink_url"]
   end
 
-  def track_html(track_url = DEFAULT_TRACK)
-    resp = self.get('/oembed', :url => track_url)
+  def track_html(track_url = DEFAULT_TRACK, autoplay_enabled = false)
+    resp = self.get('/oembed', :url => track_url, :auto_play => autoplay_enabled)
     resp["html"]
   end
 
