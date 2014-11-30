@@ -29,6 +29,9 @@ post '/search' do
   permalink = client.search_track(query)
   p permalink
   @widget = client.track_html(permalink)
+
+  response.headers['Access-Control-Allow-Origin'] = '*'
+
   erb :widget
 end
 
