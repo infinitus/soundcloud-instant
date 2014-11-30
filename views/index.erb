@@ -1,33 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>SoundCloud Instant</title>
-  <script src="js/jquery-1.11.1.min.js" type="text/javascript" charset="utf-8"></script>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8">
+    <title>SoundCloud Instant</title>
 
-  <div id="autoupdate-widget">
-    <%= erb :widget %>
+    <!-- Design credits: Magister by Sergey Pozhilov (GetTemplate.com) -->
+    <!-- Bootstrap itself -->
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Custom styles -->
+    <link rel="stylesheet" href="assets/css/magister.css">
+
+    <!-- Fonts -->
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='http://fonts.googleapis.com/css?family=Wire+One' rel='stylesheet' type='text/css'>
+
+    <script src="js/jquery-1.11.1.min.js" type="text/javascript" charset="utf-8"></script>
+  </head>
+
+  <nav class="mainmenu">
+    <div class="container">
+      <div class="dropdown">
+        <button type="button" class="navbar-toggle" data-toggle="dropdown"><span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+        <!-- <a data-toggle="dropdown" href="#">Dropdown trigger</a> -->
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+          <li><a href="#head" class="active">Home</a></li>
+          <li><a href="#credits">Credits</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <body class="theme-invert">
+
+    <!-- Main (Home) section -->
+    <section class="section" id="head">
+      <div class="container">
+
+        <div class="row">
+          <div class="col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1 text-center">
+
+            <div id="autoupdate-widget">
+              <%= erb :widget %>
+            </div>
+
+            <div>
+              <input type="text" name="search_box" id="search_box" spellcheck="false" placeholder="Search for.." />
+            </div>
+
+            <script type="text/javascript" charset="utf-8">
+              document.getElementById("search_box").onkeyup = function(event) {
+                instantSearch();
+              }
+
+            function instantSearch() {
+              var _url = "<%= @url %>";
+              var query = document.getElementById("search_box").value;
+              $.post(_url, { q: query }, function(widget_html) {
+                  $('#autoupdate-widget').html(widget_html);
+                  });
+            }
+            </script>
+
+      </div>
+    </div>
+
   </div>
+</section>
 
-  <div>
-    <input type="text" name="search_box" id="search_box" spellcheck="false" placeholder="Search for.." />
-  </div>
+<section class="section" id="credits">
+	<div class="container">
 
-  <script type="text/javascript" charset="utf-8">
-    document.getElementById("search_box").onkeyup = function(event) {
-      instantSearch();
-    }
+		<h2 class="text-center title">Credits</h2>
+		<div class="row">
+			<div class="col-sm-offset-4 col-sm-4 col-sm-offset-4">
+				<h5><strong>Design<br></strong></h5>
+        <p>
+          The design of this site is a slightly-modified template by Sergey Pozhilov.
+          http://www.gettemplate.com/demo/magister/
+          http://bootstrapzero.com/bootstrap-template/magister
+        </p>
+			</div>
+			<div class="col-sm-4">
+			</div>
+		</div>
+	</div>
+</section>
 
-    function instantSearch() {
-      var _url = "<%= @url %>";
-      var query = document.getElementById("search_box").value;
-      $.post(_url, { q: query }, function(widget_html) {
-          $('#autoupdate-widget').html(widget_html);
-      });
-    }
-  </script>
-  
+<!-- GitHub fork banner -->
+
+<a href="https://github.com/infinius/soundcloud-instant"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+<script src="assets/js/modernizr.custom.72241.js"></script>
+<script src="assets/js/magister.js"></script>
+
 </body>
 </html>
