@@ -3,7 +3,7 @@ require 'sinatra/reloader'
 require 'soundcloud'
 require 'dotenv'
 
-Dotenv.load
+Dotenv.load if Sinatra::Base.development?
 
 CLIENT_ID = ENV['CLIENT_ID']
 
