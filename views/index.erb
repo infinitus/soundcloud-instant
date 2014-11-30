@@ -105,7 +105,7 @@
         var _url = "<%= @url %>";
         var query = document.getElementById("search_box").value.trim();
 
-        if (query == "" || query == last_query) { return; }
+        if (query == "") { return; }
 
         last_query = query;
         xhr = $.post(_url, { q: query }, function(widget_html) {
