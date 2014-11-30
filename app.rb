@@ -18,7 +18,6 @@ end
 
 post '/' do
   query = params[:q]
-  p query
 
   # TODO: DRY this.
   permalink = Client.search_track(query)
