@@ -1,9 +1,11 @@
 require 'sinatra'
 require 'sinatra/reloader'
 require 'soundcloud'
-require 'dotenv'
 
-Dotenv.load if Sinatra::Base.development?
+if Sinatra::Base.development?
+  require 'dotenv'
+  Dotenv.load
+end
 
 CLIENT_ID = ENV['CLIENT_ID']
 
@@ -22,7 +24,7 @@ class SoundCloundClient
 
   attr_accessor :client
   DEFAULT_TRACK = "https://soundcloud.com/iamtchami/tchami-untrue-extended-mix"
-  
+
   def initialize(client_id)
     @client ||= SoundCloud.new(:client_id => CLIENT_ID)
   end
