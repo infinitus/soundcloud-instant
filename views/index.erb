@@ -7,8 +7,8 @@
 </head>
 <body>
 
-  <div id="widget">
-    <%= @widget %>
+  <div id="autoupdate-widget">
+    <%= erb :widget %>
   </div>
 
   <div>
@@ -24,7 +24,9 @@
       // TODO: Set URL based on env automatically.
       var _url = "http://localhost:4567/search"
       var query = document.getElementById("search_box").value;
-      $.ajax({ type: "GET", url: _url, data: { q: query }});
+      $.post(_url, { q: query }, function(widget_html) {
+          $('#autoupdate-widget').html(widget_html);
+      });
     }
   </script>
   
