@@ -4,6 +4,11 @@ require 'soundcloud'
 
 class SoundCloudInstant < Sinatra::Application
 
+  configure do
+    enable :sessions
+    # sessions[:value] for session id
+  end
+
   if Sinatra::Base.development?
     require 'dotenv'
     Dotenv.load
@@ -20,9 +25,8 @@ class SoundCloudInstant < Sinatra::Application
 
   post '/' do
     query = params[:q]
-    @widget = Client.search_track(query)
     response.headers['Access-Control-Allow-Origin'] = '*'
-    erb :widget
+    Client.search_track(query) # => returns the URI of the track
   end
 
   Client = SoundCloud.new(:client_id => ENV["CLIENT_ID"])
