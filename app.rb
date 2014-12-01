@@ -1,13 +1,9 @@
 require 'sinatra'
 require 'sinatra/reloader'
 require 'soundcloud'
+require 'redis'
 
 class SoundCloudInstant < Sinatra::Application
-
-  configure do
-    enable :sessions
-    # sessions[:value] for session id
-  end
 
   if Sinatra::Base.development?
     require 'dotenv'
@@ -17,8 +13,18 @@ class SoundCloudInstant < Sinatra::Application
     URL = ENV['PRODUCTION_URL']
   end
 
+  configure do
+    enable :sessions
+    set :session_secret, ENV['SECRET']
+    # session[:value] for session id
+  end
+
+  redis = Redis.new
+  DEFAULT_TRACK = "https://soundcloud.com/iamtchami/tchami-untrue-extended-mix"
+
   get '/' do
-    @widget = Client.widget
+    last_track = redis.get("#{session[:value]}.last_track")
+    @widget = last_track.nil? ? Client.widget : Client.widget(last_track)
     @url = URL
     erb :index
   end
@@ -26,13 +32,15 @@ class SoundCloudInstant < Sinatra::Application
   post '/' do
     query = params[:q]
     response.headers['Access-Control-Allow-Origin'] = '*'
-    Client.search_track(query) # => returns the URI of the track
+    Client.search_track(query)
+  end
+  
+  post '/save' do
+    redis.set "#{session[:value]}.last_track", params[:uri]
   end
 
   Client = SoundCloud.new(:client_id => ENV["CLIENT_ID"])
   class << Client
-
-    DEFAULT_TRACK = "https://soundcloud.com/iamtchami/tchami-untrue-extended-mix"
 
     def search_track(query)
       resp = self.get('/tracks', :q => query)
