@@ -7,7 +7,7 @@ if Sinatra::Base.development?
   Dotenv.load
   URL = 'http://localhost:4567'
 else
-  URL = 'http://soundcloudinstant.herokuapp.com'
+  URL = 'http://soundcloud.crypt.sg'
 end
 
 get '/' do
