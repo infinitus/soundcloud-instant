@@ -9,8 +9,10 @@ class SoundCloudInstant < Sinatra::Application
     require 'dotenv'
     Dotenv.load
     URL = ENV['DEVELOPMENT_URL']
+    redis = Redis.new
   else
     URL = ENV['PRODUCTION_URL']
+    redis = Redis.new(:url => ENV['REDISTOGO_URL'])
   end
 
   configure do
@@ -18,9 +20,6 @@ class SoundCloudInstant < Sinatra::Application
     set :session_secret, ENV['SECRET']
     # session[:value] for session id
   end
-
-  redis = Redis.new
-  DEFAULT_TRACK = "https://soundcloud.com/iamtchami/tchami-untrue-extended-mix"
 
   get '/' do
     last_track = redis.get("#{session[:value]}.last_track")
@@ -41,6 +40,8 @@ class SoundCloudInstant < Sinatra::Application
 
   Client = SoundCloud.new(:client_id => ENV["CLIENT_ID"])
   class << Client
+
+    DEFAULT_TRACK = "https://soundcloud.com/iamtchami/tchami-untrue-extended-mix"
 
     def search_track(query)
       resp = self.get('/tracks', :q => query)
