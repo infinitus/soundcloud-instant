@@ -64,25 +64,21 @@
     <!-- AJAX for instant search -->
     <script type="text/javascript" charset="utf-8">
       document.getElementById("search_box").onkeyup = function(event) {
-        instantSearch();
+        var query = document.getElementById("search_box").value.trim();
+        if (query == "" || localStorage.getItem("query") == query) { return; }
+        localStorage.setItem("query", query);
+
+        instantSearch(query);
       }
 
       var xhr;
-      var last_query;
+      var _url = "<%= @url %>";
 
-      function instantSearch() {
-        if (xhr && xhr.readyState != 4) {
-          xhr.abort();
-        }
-        var _url = "<%= @url %>";
-        var query = document.getElementById("search_box").value.trim();
-
-        if (query == "") { return; }
-
-        last_query = query;
+      function instantSearch(query) {
+        if (xhr && xhr.readyState != 4) { xhr.abort(); }
         xhr = $.post(_url, { q: query }, function(widget_html) {
-            $('#autoupdate-widget').html(widget_html);
-            });
+                $('#autoupdate-widget').html(widget_html);
+              });
       }
     </script>
 
