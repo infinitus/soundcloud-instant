@@ -22,8 +22,6 @@ post '/' do
   # TODO: DRY this.
   permalink = Client.search_track(query)
   @widget = Client.track_html(permalink, true)
-  p @widget
-
   response.headers['Access-Control-Allow-Origin'] = '*'
 
   erb :widget
