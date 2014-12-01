@@ -116,7 +116,7 @@ body {
 	top:0;
 } 
 @media (min-width: 768px) {
-	.section { padding-top:160px;}
+	.section { padding-top:100px;}
 }
 
 /* Show one of sections */
@@ -140,7 +140,7 @@ a:hover, a:active { color:#fff; text-decoration: underline; }
 .subtitle { 
 	font-family: 'Wire One', Helvetica, Arial, sans-serif;
 	font-weight:normal;
-	font-size:7em;
+	font-size:4em;
 	margin-bottom:15px; 
 	color:#FDF9F4; 
 	line-height:1em;
