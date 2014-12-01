@@ -11,19 +11,15 @@ else
 end
 
 get '/' do
-  @widget = Client.track_html
+  @widget = Client.widget
   @url = URL
   erb :index
 end
 
 post '/' do
   query = params[:q]
-
-  # TODO: DRY this.
-  permalink = Client.search_track(query)
-  @widget = Client.track_html(permalink, true)
+  @widget = Client.search_track(query)
   response.headers['Access-Control-Allow-Origin'] = '*'
-
   erb :widget
 end
 
@@ -34,11 +30,11 @@ class << Client
 
   def search_track(query)
     resp = self.get('/tracks', :q => query)
-    resp.first["permalink_url"]
+    resp.first['uri']
   end
 
-  def track_html(track_url = DEFAULT_TRACK, autoplay_enabled = false)
-    resp = self.get('/oembed', :url => track_url, :auto_play => autoplay_enabled)
+  def widget(track_url = DEFAULT_TRACK)
+    resp = self.get('/oembed', :url => track_url)
     resp["html"]
   end
 

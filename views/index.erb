@@ -66,23 +66,27 @@
 
     <!-- AJAX for instant search -->
     <script type="text/javascript" charset="utf-8">
-      document.getElementById("search_box").onkeyup = function(event) {
-        var query = document.getElementById("search_box").value.trim();
-        if (query == "" || localStorage.getItem("query") == query) { return; }
-        localStorage.setItem("query", query);
-
-        instantSearch(query);
-      }
 
       var xhr;
       var _url = "<%= @url %>";
 
+      var iframeElement = document.querySelector('iframe');
+      var widget = SC.Widget(iframeElement); // reference to widget object
+
+      document.getElementById("search_box").onkeyup = function(event) {
+        var query = document.getElementById("search_box").value.trim();
+        if (query == "" || localStorage.getItem("query") == query) { return; }
+        localStorage.setItem("query", query);
+        instantSearch(query);
+      }
+
       function instantSearch(query) {
         if (xhr && xhr.readyState != 4) { xhr.abort(); }
         xhr = $.post(_url, { q: query }, function(widget_html) {
-                $('#autoupdate-widget').html(widget_html);
+                widget.load(widget_html, { auto_play: true, visual: true })
               });
       }
+
     </script>
 
     <!-- GA -->
@@ -94,7 +98,6 @@
 
       ga('create', 'UA-24225639-2', 'auto');
       ga('send', 'pageview');
-
     </script>
 
   </body>
