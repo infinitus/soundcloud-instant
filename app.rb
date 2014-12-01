@@ -5,9 +5,9 @@ require 'soundcloud'
 if Sinatra::Base.development?
   require 'dotenv'
   Dotenv.load
-  URL = 'http://localhost:4567'
+  URL = ENV['DEVELOPMENT_URL']
 else
-  URL = 'http://soundcloud.crypt.sg'
+  URL = ENV['PRODUCTION_URL']
 end
 
 get '/' do
