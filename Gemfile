@@ -6,4 +6,5 @@ gem 'sinatra'
 gem 'sinatra-contrib'
 gem 'soundcloud'
 gem 'dotenv-rails', :groups => [:development, :test]
+gem 'thin'
 gem 'rerun'

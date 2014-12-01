@@ -4,9 +4,11 @@ GEM
     backports (3.6.4)
     celluloid (0.16.0)
       timers (~> 4.0.0)
+    daemons (1.1.9)
     dotenv (1.0.2)
     dotenv-rails (1.0.2)
       dotenv (= 1.0.2)
+    eventmachine (1.0.3)
     ffi (1.9.6)
     hashie (2.1.2)
     hitimes (1.2.2)
@@ -50,6 +52,10 @@ GEM
     soundcloud (0.3.2)
       hashie (~> 2.0)
       httmultiparty (~> 0.3.0)
+    thin (1.6.3)
+      daemons (~> 1.0, >= 1.0.9)
+      eventmachine (~> 1.0)
+      rack (~> 1.0)
     tilt (1.4.1)
     timers (4.0.1)
       hitimes
@@ -63,3 +69,4 @@ DEPENDENCIES
   sinatra
   sinatra-contrib
   soundcloud
+  thin
