@@ -18,11 +18,10 @@ class SoundCloudInstant < Sinatra::Application
   configure do
     enable :sessions
     set :session_secret, ENV['SECRET']
-    # session[:value] for session id
   end
 
   get '/' do
-    last_track = redis.get("#{session[:value]}.last_track")
+    last_track = redis.get("#{session[:session_id]}:last_track")
     @widget = last_track.nil? ? Client.widget : Client.widget(last_track)
     @url = URL
     erb :index
@@ -31,11 +30,12 @@ class SoundCloudInstant < Sinatra::Application
   post '/' do
     query = params[:q]
     response.headers['Access-Control-Allow-Origin'] = '*'
-    Client.search_track(query)
+    results = Client.search_track(query)
+    results.first
   end
   
   post '/save' do
-    redis.set "#{session[:value]}.last_track", params[:uri]
+    redis.set "#{session[:session_id]}:last_track", params[:uri]
   end
 
   Client = SoundCloud.new(:client_id => ENV["CLIENT_ID"])
@@ -45,7 +45,7 @@ class SoundCloudInstant < Sinatra::Application
 
     def search_track(query)
       resp = self.get('/tracks', :q => query)
-      resp.first['uri']
+      resp.map(&:uri)
     end
 
     def widget(track_url = DEFAULT_TRACK)
