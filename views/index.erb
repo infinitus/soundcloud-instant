@@ -65,30 +65,7 @@
     <script src="assets/js/magister.js"></script>
 
     <!-- AJAX for instant search -->
-    <script type="text/javascript" charset="utf-8">
-
-      var xhr;
-      var _url = "<%= @url %>";
-
-      var iframeElement = document.querySelector('iframe');
-      var widget = SC.Widget(iframeElement); // reference to widget object
-
-      document.getElementById("search_box").onkeyup = function(event) {
-        var query = document.getElementById("search_box").value.trim();
-        if (query == "" || localStorage.getItem("query") == query) { return; }
-        localStorage.setItem("query", query);
-        instantSearch(query);
-      }
-
-      function instantSearch(query) {
-        if (xhr && xhr.readyState != 4) { xhr.abort(); }
-        xhr = $.get(_url + "/search", { q: query }, function(uri) {
-                widget.load(uri, { auto_play: true, visual: true })
-                $.post(_url + "/save", { uri: uri }, function(_) {} );
-              });
-      }
-
-    </script>
+    <script src="js/instant.js" type="text/javascript" charset="utf-8"></script>
 
     <!-- GA -->
     <script>
