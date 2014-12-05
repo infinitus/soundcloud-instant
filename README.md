@@ -1,5 +1,7 @@
 ### SoundCloud Instant
 
+[![Code Climate](https://codeclimate.com/github/infinitus/soundcloud-instant/badges/gpa.svg)](https://codeclimate.com/github/infinitus/soundcloud-instant)
+
 An excuse to play with Sinatra and SoundCloud APIs. The site is up on [Heroku](http://soundcloudinstant.herokuapp.com).
 
 ### Build
