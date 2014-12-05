@@ -13,6 +13,25 @@ $(function() {
     instantSearch(query);
   });
 
+  $(document.documentElement).keydown(function(e) {
+    switch (e.keyCode) {
+      case 38:
+        console.log("pressed up");
+        playPrevTrack();
+        break;
+      case 40:
+        console.log("press down");
+        playNextTrack();
+        break;
+    }
+  })
+
+  function playPrevTrack() {
+  }
+
+  function playNextTrack() {
+  }
+
   function instantSearch(query) {
     if (xhr && xhr.readyState != 4) { xhr.abort(); }
     xhr = $.get(_url + "/search", { q: query }, function(uri) {
