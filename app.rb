@@ -8,10 +8,8 @@ class SoundCloudInstant < Sinatra::Application
   if Sinatra::Base.development?
     require 'dotenv'
     Dotenv.load
-    URL = ENV['DEVELOPMENT_URL']
     redis = Redis.new
   else
-    URL = ENV['PRODUCTION_URL']
     redis = Redis.new(:url => ENV['REDISTOGO_URL'])
   end
 
@@ -23,7 +21,6 @@ class SoundCloudInstant < Sinatra::Application
   get '/' do
     last_track = redis.get("#{session[:session_id]}:last_track")
     @widget = last_track.nil? ? Client.widget : Client.widget(last_track)
-    @url = URL
     erb :index
   end
 
