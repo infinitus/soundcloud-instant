@@ -82,7 +82,7 @@
 
       function instantSearch(query) {
         if (xhr && xhr.readyState != 4) { xhr.abort(); }
-        xhr = $.post(_url, { q: query }, function(uri) {
+        xhr = $.get(_url + "/search", { q: query }, function(uri) {
                 widget.load(uri, { auto_play: true, visual: true })
                 $.post(_url + "/save", { uri: uri }, function(_) {} );
               });

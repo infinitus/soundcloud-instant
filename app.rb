@@ -27,7 +27,7 @@ class SoundCloudInstant < Sinatra::Application
     erb :index
   end
 
-  post '/' do
+  get '/search' do
     query = params[:q]
     response.headers['Access-Control-Allow-Origin'] = '*'
     results = Client.search_track(query)
