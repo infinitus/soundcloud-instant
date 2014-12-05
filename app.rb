@@ -40,7 +40,7 @@ class SoundCloudInstant < Sinatra::Application
 
     def search_track(query)
       resp = self.get('/tracks', :q => query)
-      resp.map(&:uri)
+      resp.keep_if(&:streamable).map(&:uri)
     end
 
     def widget(track_url = DEFAULT_TRACK)
