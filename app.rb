@@ -2,6 +2,7 @@ require 'sinatra'
 require 'sinatra/reloader'
 require 'soundcloud'
 require 'redis'
+require 'json'
 
 class SoundCloudInstant < Sinatra::Application
 
@@ -28,7 +29,7 @@ class SoundCloudInstant < Sinatra::Application
     query = params[:q]
     response.headers['Access-Control-Allow-Origin'] = '*'
     results = Client.search_track(query)
-    results.first
+    results.to_json
   end
   
   post '/save' do

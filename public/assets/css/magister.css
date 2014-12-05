@@ -116,7 +116,7 @@ body {
 	top:0;
 } 
 @media (min-width: 768px) {
-	.section { padding-top:100px;}
+	.section { padding-top:70px;}
 }
 
 /* Show one of sections */
@@ -139,7 +139,7 @@ a:hover, a:active { color:#fff; text-decoration: underline; }
 .title,
 .subtitle { 
 	font-family: 'Wire One', Helvetica, Arial, sans-serif;
-	font-weight:normal;
+	font-weight:bold;
 	font-size:4em;
 	margin-bottom:15px; 
 	color:#FDF9F4; 
@@ -152,10 +152,11 @@ a:hover, a:active { color:#fff; text-decoration: underline; }
 	margin-bottom:40px; 
 }
 .tagline { 
-	font-size:1.4em;
+	font-family: 'Wire One', Helvetica, Arial, sans-serif;
+	font-size:2.4em;
 	line-height:1.3em;
 	font-weight:normal;
-	margin-bottom:75px;
+	margin-bottom:20px;
 }
 
 @media (max-width: 767px) {

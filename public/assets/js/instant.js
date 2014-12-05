@@ -2,6 +2,7 @@ $(function() {
 
   var xhr;
   var _url = location.protocol + '//' + location.host;
+  var currentPlayingIndex = 0;
 
   var iframeElement = document.querySelector('iframe');
   var widget = SC.Widget(iframeElement); // reference to widget object
@@ -16,27 +17,44 @@ $(function() {
   $(document.documentElement).keydown(function(e) {
     switch (e.keyCode) {
       case 38:
-        console.log("pressed up");
         playPrevTrack();
         break;
       case 40:
-        console.log("press down");
         playNextTrack();
         break;
     }
   })
 
   function playPrevTrack() {
+    if (currentPlayingIndex == 0) {
+      return;
+    }
+    results = JSON.parse(localStorage.getItem("results"));
+    currentPlayingIndex--;
+    loadWidgetURI(results[currentPlayingIndex]);
   }
 
   function playNextTrack() {
+    results = JSON.parse(localStorage.getItem("results"));
+    if (currentPlayingIndex == results.length - 1) {
+      return;
+    }
+    currentPlayingIndex++;
+    loadWidgetURI(results[currentPlayingIndex]);
+  }
+
+  function loadWidgetURI(uri) {
+    widget.load(uri, { auto_play: true, visual: true });
   }
 
   function instantSearch(query) {
     if (xhr && xhr.readyState != 4) { xhr.abort(); }
-    xhr = $.get(_url + "/search", { q: query }, function(uri) {
-      widget.load(uri, { auto_play: true, visual: true })
-        $.post(_url + "/save", { uri: uri }, function(_) {} );
+    xhr = $.get(_url + "/search", { q: query }, function(uri_results) {
+      currentPlayingIndex = 0; 
+      localStorage.setItem("results", uri_results);
+      uri = JSON.parse(uri_results)[currentPlayingIndex];
+      loadWidgetURI(uri);
+      $.post(_url + "/save", { uri: uri }, function(_) {} );
     });
   }
 
