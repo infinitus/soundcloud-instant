@@ -20,20 +20,17 @@ class SoundCloudInstant < Sinatra::Application
   end
 
   get '/' do
-    last_track = redis.get("#{session[:session_id]}:last_track")
-    @widget = last_track.nil? ? Client.widget : Client.widget(last_track)
+    last_query = redis.get "#{session[:session_id]}:last_query"
+    @widget = last_query.nil? ? Client.widget : Client.widget(Client.search_track(last_query).first)
     erb :index
   end
 
   get '/search' do
     query = params[:q]
+    redis.set "#{session[:session_id]}:last_query", query
     response.headers['Access-Control-Allow-Origin'] = '*'
     results = Client.search_track(query)
     results.to_json
-  end
-  
-  post '/save' do
-    redis.set "#{session[:session_id]}:last_track", params[:uri]
   end
 
   Client = SoundCloud.new(:client_id => ENV["CLIENT_ID"])

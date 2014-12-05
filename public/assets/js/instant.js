@@ -54,7 +54,7 @@ $(function() {
       localStorage.setItem("results", uri_results);
       uri = JSON.parse(uri_results)[currentPlayingIndex];
       loadWidgetURI(uri);
-      $.post(_url + "/save", { uri: uri }, function(_) {} );
+      // $.post(_url + "/save", { uri: uri }, function(_) {} );
     });
   }
 
