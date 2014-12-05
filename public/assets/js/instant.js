@@ -7,6 +7,13 @@ $(function() {
   var iframeElement = document.querySelector('iframe');
   var widget = SC.Widget(iframeElement); // reference to widget object
 
+  // Autoplay next track when current one finishes.
+  widget.bind(SC.Widget.Events.READY, function() {
+    widget.bind(SC.Widget.Events.FINISH, function() {
+      playNextTrack();
+    })
+  });
+
   $("#search_box").keyup(function(event) {
     var query = $("#search_box").val().trim();
     if (query == "" || localStorage.getItem("query") == query) { return; }
@@ -54,7 +61,6 @@ $(function() {
       localStorage.setItem("results", uri_results);
       uri = JSON.parse(uri_results)[currentPlayingIndex];
       loadWidgetURI(uri);
-      // $.post(_url + "/save", { uri: uri }, function(_) {} );
     });
   }
 
