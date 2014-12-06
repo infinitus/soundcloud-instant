@@ -11,12 +11,12 @@ $(function() {
   widget.bind(SC.Widget.Events.READY, function() {
     widget.bind(SC.Widget.Events.FINISH, function() {
       playNextTrack();
-    })
+    });
   });
 
-  $("#search_box").keyup(function(event) {
+  $("#search_box").keyup(function(e) {
     var query = $("#search_box").val().trim();
-    if (query == "" || localStorage.getItem("query") == query) { return; }
+    if (query === "" || localStorage.getItem("query") === query) { return; }
     localStorage.setItem("query", query);
     instantSearch(query);
   });
@@ -30,20 +30,20 @@ $(function() {
         playNextTrack();
         break;
     }
-  })
+  });
 
   function playPrevTrack() {
-    if (currentPlayingIndex == 0) {
+    if (currentPlayingIndex === 0) {
       return;
     }
-    results = JSON.parse(localStorage.getItem("results"));
+    var results = JSON.parse(localStorage.getItem("results"));
     currentPlayingIndex--;
     loadWidgetURI(results[currentPlayingIndex]);
   }
 
   function playNextTrack() {
-    results = JSON.parse(localStorage.getItem("results"));
-    if (currentPlayingIndex == results.length - 1) {
+    var results = JSON.parse(localStorage.getItem("results"));
+    if (currentPlayingIndex === results.length - 1) {
       return;
     }
     currentPlayingIndex++;
@@ -55,13 +55,13 @@ $(function() {
   }
 
   function instantSearch(query) {
-    if (xhr && xhr.readyState != 4) { xhr.abort(); }
+    if (xhr && xhr.readyState !== 4) { xhr.abort(); }
     xhr = $.get(_url + "/search", { q: query }, function(uri_results) {
       currentPlayingIndex = 0; 
       localStorage.setItem("results", uri_results);
-      uri = JSON.parse(uri_results)[currentPlayingIndex];
+      var uri = JSON.parse(uri_results)[currentPlayingIndex];
       loadWidgetURI(uri);
     });
   }
 
-})
+});
