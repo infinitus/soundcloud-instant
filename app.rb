@@ -33,17 +33,15 @@ class SoundCloudInstant < Sinatra::Application
     results.to_json
   end
 
-  Client = SoundCloud.new(:client_id => ENV["CLIENT_ID"])
+  Client = SoundCloud.new(:client_id => ENV['CLIENT_ID'])
   class << Client
-
-    DEFAULT_TRACK = "https://soundcloud.com/iamtchami/tchami-untrue-extended-mix"
 
     def search_track(query)
       resp = self.get('/tracks', :q => query)
       resp.keep_if(&:streamable).map(&:uri)
     end
 
-    def widget(track_url = DEFAULT_TRACK)
+    def widget(track_url = ENV['DEFAULT_TRACK'])
       resp = self.get('/oembed', :url => track_url)
       resp["html"]
     end
