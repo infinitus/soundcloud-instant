@@ -13,6 +13,11 @@ git clone git@github.com:infinitus/soundcloud-instant.git && cd soundcloud-insta
 # Install gems
 bundle install
 
+# Copy .env.sample as .env and fill it up with the relevant configuration.
+# CLIENT => Your SoundCloud client API
+# SECRET => SecureRandom.hex(64)
+# DEFAULT_TRACK => The HTTP SoundCloud URL of your preferred default track.
+
 # Start Redis (for session store)
 redis-server
 
